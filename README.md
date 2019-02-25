@@ -7,3 +7,20 @@ We will pull request for peer review between the 3 of us and review those change
 We will communicate all project updates via discord, and any time problems will occur that will be our primary communication method.
 We agreed on the same package names in order to stremline our development. 
 
+
+
+byteMe
+	App.java
+
+searchBar
+	SearchBar.java
+	BarTopPanel.java
+	BarCenterPanel.java
+	BarBottomPanel.java
+
+adminMode
+	AdminMode.java
+	AdminTopPanel.java
+	AdminCenterPanel.java
+	AdminBottomPanel.java
+
