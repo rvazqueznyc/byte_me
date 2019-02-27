@@ -17,13 +17,13 @@ import javax.swing.table.TableCellRenderer;
 
 public class AdminCenterPanel extends JPanel {
 	
+	protected static String fileChosen;
 	private JTable index;
 	
 	public AdminCenterPanel() {
 		String[] columns = {"File Name", "Status"};
 		
-		String[][] data = {{"C:/", "Test"},
-				{"C:/2", "Test2"}/*needs reference*/};
+		String[][] data = {{fileChosen, "Test"}};
 		
 		//Creating the JTable object and preventing editing
 		index = new JTable(data, columns) {

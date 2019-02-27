@@ -4,11 +4,15 @@
 
 package adminMode;
 
+import adminMode.AdminCenterPanel;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -71,5 +75,17 @@ public class AdminBottomPanel extends JPanel {
 		gc.gridy = 1;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(versionNumber, gc);
+		
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(new java.io.File("."));
+				fc.setDialogTitle("Add a file to the index");
+				
+				if(fc.showOpenDialog(addButton) == JFileChooser.APPROVE_OPTION) {
+					AdminCenterPanel.fileChosen = (fc.getSelectedFile().getAbsolutePath());
+				}
+			}
+		});
 	}
 }

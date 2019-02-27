@@ -5,7 +5,6 @@
 package searchBar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -54,7 +53,7 @@ class SearchBarPanel extends JPanel {
 		setPreferredSize(dim);
 		
 		//Adding components
-		searchComboBox = new JComboBox(options);
+		searchComboBox = new JComboBox<>(options);
 		searchBar = new JTextField();
 		searchButton = new JButton("Search");
 		
