@@ -19,14 +19,28 @@ public class AdminCenterPanel extends JPanel {
 	
 	protected static String fileChosen;
 	private JTable index;
+	public static DefaultTableModel model;
 	
 	public AdminCenterPanel() {
-		String[] columns = {"File Name", "Status"};
 		
-		String[][] data = {{fileChosen, "Test"}};
+	/*	String[] columns = {"File Name", "Status"};
+		
+		String[][] data = 
+			{    {"C:/", "Test"},
+				{"C:/2", "Test2"}};*/
+		
+				/*needs reference*/
 		
 		//Creating the JTable object and preventing editing
-		index = new JTable(data, columns) {
+		index = new JTable();
+		
+		String columnNames[] = {"File Name","Status"};
+		 model = new DefaultTableModel();
+		model.setColumnIdentifiers(columnNames);
+		
+		index.setModel(model);
+		
+		/*{
 			public boolean isCellEditable(int data, int columns) {
 				return false;
 			}
@@ -45,7 +59,7 @@ public class AdminCenterPanel extends JPanel {
 				
 				return c;
 			}
-		};
+		};*/
 		
 		JTableHeader tHeader = index.getTableHeader();
 		
@@ -58,5 +72,65 @@ public class AdminCenterPanel extends JPanel {
 		//Adding a scroll bar to the table
 		JScrollPane indexScroll = new JScrollPane(index);
 		add(indexScroll);
+		int row=0;
+		BufferedReader reader;
+		
+		AdminCenterPanel.model.getDataVector().removeAllElements();
+		AdminCenterPanel.model.fireTableDataChanged();
+		
+		try {
+			reader = new BufferedReader(new FileReader(
+					"output.txt"));
+			String line = reader.readLine();
+			
+			
+			
+			while (line != null) {
+				
+				File file = new File(line);
+				
+				if (file.exists()){
+					AdminCenterPanel.model.addRow(new Object[]{line,"Indexed"});
+				}
+				else
+				{
+					AdminCenterPanel.model.addRow(new Object[]{line,"File Not Found!"});
+				}
+				
+				line = reader.readLine();
+				
+			
+			
+			
+			
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	/*	int row=0;
+		BufferedReader reader;
+		
+		try {
+			reader = new BufferedReader(new FileReader(
+					"output.txt"));
+			String line = reader.readLine();
+			model.addRow(new Object[]{line,"Indexed"});
+			while (line != null) {
+				System.out.println(line);
+				// read next line
+				line = reader.readLine();
+				model.addRow(new Object[]{line,"Indexed"});
+			row++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		model.removeRow(row);
+		
+		*/
 	}
 }
