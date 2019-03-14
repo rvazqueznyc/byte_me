@@ -36,7 +36,101 @@ public class AdminBottomPanel extends JPanel {
 		versionNumber = new JLabel("Search Engine version: " /*needs reference*/);
 		
 		
+		//remove button action
+        removeButton.addActionListener(new ActionListener() 
 		
+		{
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			if(AdminCenterPanel.index.getSelectedRow()==-1)
+			{
+				JOptionPane.showMessageDialog(null, "Select a row");
+			}
+			else
+			{
+				BufferedReader reader;
+				try {
+					reader = new BufferedReader(new FileReader(
+							"output.txt"));
+					String line = reader.readLine();
+					 newline = null;
+					
+					 int i=0;
+					while (line != null) {
+						
+						if(!line.equals(AdminCenterPanel.index.getValueAt(AdminCenterPanel.index.getSelectedRow(), 0)))
+						{
+							if(i==0)
+							{
+								newline=line;
+								i=1;
+							}
+							else
+							{
+						newline=newline+"\n"+line;
+						
+							}
+							}
+						
+						
+						
+						//System.out.println(line);
+						// read next line
+						line = reader.readLine();
+					
+					}
+					System.out.println("......................................................................................");
+					System.out.println(newline);
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				
+				
+			System.out.println(AdminCenterPanel.index.getValueAt(AdminCenterPanel.index.getSelectedRow(), 0));
+			
+			
+			   FileWriter fw;
+			try {
+				fw = new FileWriter("output.txt");
+				   // read character wise from string and write  
+		        // into FileWriter  
+		       fw.write(newline+"\n");
+		  
+		        System.out.println("Writing successful"); 
+		        //close the file  
+		        fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			   
+		     
+			
+		/*	
+			try(FileWriter fw = new FileWriter("output.txt", true);
+				    BufferedWriter bw = new BufferedWriter(fw);
+				    PrintWriter out = new PrintWriter(bw))
+				{
+				    
+				    out.print(newline);
+				    
+				  
+				} catch (IOException e) {
+				    //exception handling left as an exercise for the reader
+				}*/
+		
+			
+			
+			AdminCenterPanel.model.removeRow(AdminCenterPanel.index.getSelectedRow());
+			
+			
+			
+			}
+			
+			
+		}});
 		
 		// add button action listener 
 		addButton.addActionListener(new ActionListener() 
