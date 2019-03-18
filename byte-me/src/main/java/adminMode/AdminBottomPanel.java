@@ -36,6 +36,73 @@ public class AdminBottomPanel extends JPanel {
 		versionNumber = new JLabel("Search Engine version: " /*needs reference*/);
 		
 		
+		//FA rebuild Button action listener
+		rebuildButton.addActionListener(new ActionListener() 
+		
+		{
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			
+			BufferedReader reader;
+			
+
+			// delete all data if it has because we re enter all files after verifying   
+		
+			AdminCenterPanel.model.getDataVector().removeAllElements();
+			
+			// this method ensures that if any row is deleted it refreshes the table
+			AdminCenterPanel.model.fireTableDataChanged();
+		
+			/* here we have applied a try and catch block to populate table the very first time when application starts
+			 * we have used a try and catch block to ensure if the file we are using to store addresses of other files is missing or corrupt it will
+			 * will execute  catch block and show the error
+			*/
+			try {
+				/* here we are reading file "output.txt" in which we have stored our data about file
+				 * we have passed this file to BufferedReader via FileReader to read it line by line*/
+				reader = new BufferedReader(new FileReader(
+						"output.txt"));
+				//  here we have first line of file which is a file path we have stored
+				String line = reader.readLine();
+				
+				
+				// this loop will continue until it finds an empty line
+				while (line != null) {
+					
+					// we have put path of file in this FIle variable 
+					File file = new File(line);
+					
+					// file.exists() checks that if this file is valid or not
+					if (file.exists()){
+						// if it is valid we put that path and add Indexed in front of it
+						AdminCenterPanel.model.addRow(new Object[]{line,"Indexed"});
+					}
+				
+				else
+				{
+					// if it is not valid we put that path and add File not found! in front of it
+						AdminCenterPanel.model.addRow(new Object[]{line,"File Not Found!"});
+					}
+					
+					line = reader.readLine();
+					
+				
+				}
+				
+				
+				
+			// after reading that file we close it
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+		
+		}});
+		
+		
 		//remove button action
         removeButton.addActionListener(new ActionListener() 
 		
