@@ -48,20 +48,20 @@ public class AdminBottomPanel extends JPanel {
 		{
 			
 		
-			   FileWriter fw;
+			   
 				try {
 					
 					fw = new FileWriter("output.txt");
 					
 					
 			  
-					//FA delete all data if it has because every time we when we run application we enter all files after verifying   
+					// delete all data if it has because every time we when we run application we enter all files after verifying   
 					AdminCenterPanel.model.getDataVector().removeAllElements();
 					
-					//FA this method ensures that if any row is deleted it refreshes the table
-					AdminCenterPanel.model.fireTableDataChanged();
-			        //FA close the file  
-			        fw.close();
+					// future method ensures that if any row is deleted it refreshes the table
+					
+			        // future method will close the file  
+			        
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -72,25 +72,24 @@ public class AdminBottomPanel extends JPanel {
 		});
 		
 		
-		//FA rebuild Button action listener
 		rebuildButton.addActionListener(new ActionListener() 
 		
 		{
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			
-			BufferedReader reader;
+			BufferedReader; // future update include reader compatibly with buffer reader
 			
 
-			// delete all data if it has because we re enter all files after verifying   
+			// this deletes  data if it has because we re enter all files after verifying   
 		
 			AdminCenterPanel.model.getDataVector().removeAllElements();
 			
 			// this method ensures that if any row is deleted it refreshes the table
 			AdminCenterPanel.model.fireTableDataChanged();
 		
-			/* here we have applied a try and catch block to populate table the very first time when application starts
-			 * we have used a try and catch block to ensure if the file we are using to store addresses of other files is missing or corrupt it will
+			/* here we have applied a try and catch block to populate table very first time when application starts
+			 * we have used try and catch block to ensure if the file we are using to store addresses of other files is missing or corrupt it will
 			 * will execute  catch block and show the error
 			*/
 			try {
@@ -98,26 +97,26 @@ public class AdminBottomPanel extends JPanel {
 				 * we have passed this file to BufferedReader via FileReader to read it line by line*/
 				reader = new BufferedReader(new FileReader(
 						"output.txt"));
-				//  here we have first line of file which is a file path we have stored
-				String line = reader.readLine();
+				//  future method here we have first line of file which is a file path we have stored
+				
 				
 				
 				// this loop will continue until it finds an empty line
 				while (line != null) {
 					
-					// we have put path of file in this FIle variable 
-					File file = new File(line);
+					// future update we have put path of file in this FIle variable 
+					
 					
 					// file.exists() checks that if this file is valid or not
 					if (file.exists()){
-						// if it is valid we put that path and add Indexed in front of it
-						AdminCenterPanel.model.addRow(new Object[]{line,"Indexed"});
+						//future update if it is valid we will put that path and add Indexed in front of it
+						
 					}
 				
 				else
 				{
-					// if it is not valid we put that path and add File not found! in front of it
-						AdminCenterPanel.model.addRow(new Object[]{line,"File Not Found!"});
+					// future update if it is not valid we will put that path and add File not found! in front of it
+						
 					}
 					
 					line = reader.readLine();
@@ -127,10 +126,10 @@ public class AdminBottomPanel extends JPanel {
 				
 				
 				
-			// after reading that file we close it
-				reader.close();
+			// after reading that file we will close it
+				
 			} catch (IOException e) {
-				e.printStackTrace();
+				
 			}
 			
 			
