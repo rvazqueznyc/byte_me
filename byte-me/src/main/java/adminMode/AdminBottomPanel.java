@@ -36,6 +36,42 @@ public class AdminBottomPanel extends JPanel {
 		versionNumber = new JLabel("Search Engine version: " /*needs reference*/);
 		
 		
+		
+		
+		
+		
+		
+		resetButton.addActionListener(new ActionListener() 
+		
+		{
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			
+		
+			   FileWriter fw;
+				try {
+					
+					fw = new FileWriter("output.txt");
+					
+					
+			  
+					//FA delete all data if it has because every time we when we run application we enter all files after verifying   
+					AdminCenterPanel.model.getDataVector().removeAllElements();
+					
+					//FA this method ensures that if any row is deleted it refreshes the table
+					AdminCenterPanel.model.fireTableDataChanged();
+			        //FA close the file  
+			        fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+		}
+		});
+		
+		
 		//FA rebuild Button action listener
 		rebuildButton.addActionListener(new ActionListener() 
 		
