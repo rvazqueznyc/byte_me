@@ -1,5 +1,6 @@
 /* This class creates a table with two columns that displays the index in AdminMode GUI.
  * Index includes file location and status.
+ Team Members: Lazaro Yero, Raul Vazquez, Jacob Babb
  * */
 
 package adminMode;
