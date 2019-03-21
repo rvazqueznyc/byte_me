@@ -1,5 +1,6 @@
 /* This class creates a panel in AdminMode GUI that includes buttons to
  * add, rebuild, remove and reset. It also includes some labels.
+ Team Members: Lazaro Yero, Raul Vazquez, Jacob Babb
  * */
 
 package adminMode;
