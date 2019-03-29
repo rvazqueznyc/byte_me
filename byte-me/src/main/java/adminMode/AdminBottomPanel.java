@@ -144,13 +144,13 @@ public class AdminBottomPanel extends JPanel {
 		
 		{
 		public void actionPerformed(ActionEvent arg0) 
-		{
+		{// index.getSelectedRow() gives the selected row number of table and if it is -1 means no row is selected 
 			if(AdminCenterPanel.index.getSelectedRow()==-1)
-			{
+			{// show pop up to show a message about selecting a row
 				JOptionPane.showMessageDialog(null, "Select a row");
 			}
 			else
-			{
+			{	//if row is selected then this method will execute
 				BufferedReader reader;
 				try {
 					reader = new BufferedReader(new FileReader(
@@ -159,10 +159,14 @@ public class AdminBottomPanel extends JPanel {
 					 newline = null;
 					
 					 int i=0;
+					// Here we read all lines of output.txt file and match the selected row file path with each line of output.txt file
 					while (line != null) {
-						
+						// we pick up all lines in a String variable newLine that are not equal to the file path we choose to remove
+						 // in this way we get all paths except the path of  of file path we choose to remove in in String variable newLine
 						if(!line.equals(AdminCenterPanel.index.getValueAt(AdminCenterPanel.index.getSelectedRow(), 0)))
-						{
+						{	/*For the first time we have to initialize newline variable so we use a variable i which is equal to 0 at start but
+							after first line it becomes 1 and we append all lines we pick from output.txt file to the newLine variable
+							*/
 							if(i==0)
 							{
 								newline=line;
@@ -177,13 +181,12 @@ public class AdminBottomPanel extends JPanel {
 						
 						
 						
-						//System.out.println(line);
+						
 						// read next line
 						line = reader.readLine();
 					
 					}
-					System.out.println("......................................................................................");
-					System.out.println(newline);
+					
 					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -191,7 +194,7 @@ public class AdminBottomPanel extends JPanel {
 				
 				
 				
-			System.out.println(AdminCenterPanel.index.getValueAt(AdminCenterPanel.index.getSelectedRow(), 0));
+			
 			
 			
 			   FileWriter fw;
