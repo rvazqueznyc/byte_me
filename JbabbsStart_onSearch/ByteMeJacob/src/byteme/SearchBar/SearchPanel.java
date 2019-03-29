@@ -7,9 +7,6 @@ package byteme.SearchBar;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 import javax.swing.JButton;
@@ -64,11 +61,7 @@ public class SearchPanel extends JPanel{
       if (e.getSource()==Search){
           String Search = searchbar.getText();//gets the string 
          SetSearch(Search);
-          try {
-              new SearchBar();//starts a new search bar)where i have placed the bool search
-          } catch (IOException ex) {
-              Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-          }
+          new SearchBar();//starts a new search bar)where i have placed the bool search
       }
        
            

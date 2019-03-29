@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"byteme"},{"l":"byteme.AdminMode"},{"l":"byteme.SearchBar"}]

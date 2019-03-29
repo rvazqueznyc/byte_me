@@ -10,5 +10,5 @@ package byteme.AdminMode;
  * @author jakeb
  */
 public class Adminmode {
-    
+  
 }
