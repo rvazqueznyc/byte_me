@@ -1,6 +1,5 @@
 /* This class creates a table with two columns that displays the index in AdminMode GUI.
  * Index includes file location and status.
- Team Members: Lazaro Yero, Raul Vazquez, Jacob Babb
  * */
 
 package adminMode;
@@ -9,58 +8,41 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 public class AdminCenterPanel extends JPanel {
 	
-	protected static String fileChosen;
-	private JTable index;
+	public static JTable index;
+	
+	//  every table has a model which deals with all its rows we just set row to model and model set it to the table this is the declaration of model
 	public static DefaultTableModel model;
 	
 	public AdminCenterPanel() {
 		
-	/*	String[] columns = {"File Name", "Status"};
-		
-		String[][] data = 
-			{    {"C:/", "Test"},
-				{"C:/2", "Test2"}};*/
-		
-				/*needs reference*/
-		
 		//Creating the JTable object and preventing editing
 		index = new JTable();
 		
+		
 		String columnNames[] = {"File Name","Status"};
-		 model = new DefaultTableModel();
+		//the model is initialized
+		model = new DefaultTableModel();
+		
+		//we are seting columns to this model
 		model.setColumnIdentifiers(columnNames);
 		
+		// now here we have set this model to table
 		index.setModel(model);
-		
-		/*{
-			public boolean isCellEditable(int data, int columns) {
-				return false;
-			}
-			
-			public Component prepareRenderer(TableCellRenderer r, int data, int columns) {
-				Component c = super.prepareRenderer(r, data, columns);
-				
-				if(data % 2 == 0)
-					c.setBackground(Color.WHITE);
-				
-				else
-					c.setBackground(Color.LIGHT_GRAY);
-				
-				if(isCellSelected(data, columns))
-					c.setBackground(Color.ORANGE);
-				
-				return c;
-			}
-		};*/
+
 		
 		JTableHeader tHeader = index.getTableHeader();
 		
@@ -73,65 +55,64 @@ public class AdminCenterPanel extends JPanel {
 		//Adding a scroll bar to the table
 		JScrollPane indexScroll = new JScrollPane(index);
 		add(indexScroll);
-		int row=0;
 		BufferedReader reader;
 		
-		AdminCenterPanel.model.getDataVector().removeAllElements();
-		AdminCenterPanel.model.fireTableDataChanged();
+		// delete all data if it has because every time we when we run application we enter all files after verifying   
+		model.getDataVector().removeAllElements();
 		
+		// this method ensures that if any row is deleted it refreshes the table
+		model.fireTableDataChanged();
+		
+		
+		/* here we have applied a try and catch block to populate the table very the first time when application starts
+		 * we have used a try and catch block to ensure if the file we are using to store addresses of other files is missing or corrupt it will
+		 * will execute  catch block and show the error
+		*/
 		try {
+			/* here we are reading file "output.txt" in which we have stored our data about our files
+			 * we have passed this file to BufferedReader via FileReader to read it line by line*/
+			
 			reader = new BufferedReader(new FileReader(
 					"output.txt"));
+			
+			//  here we have first line of file which is a file path we have stored
 			String line = reader.readLine();
 			
-			
-			
+		
+				// this loop will continue until it finds an empty line
 			while (line != null) {
 				
+				
+				
+				// we have put path of file in this FIle variable 
 				File file = new File(line);
 				
+				// file.exists() checks that if this file is valid or not
 				if (file.exists()){
-					AdminCenterPanel.model.addRow(new Object[]{line,"Indexed"});
+					// if it is valid we put that path and add Indexed in front of it
+					model.addRow(new Object[]{line,"Indexed"});
 				}
 				else
 				{
-					AdminCenterPanel.model.addRow(new Object[]{line,"File Not Found!"});
+					// if it is not valid we put that path and add File not found! in front of it
+					model.addRow(new Object[]{line,"File Not Found!"});
 				}
 				
+				// it reads next line of file 
 				line = reader.readLine();
 				
 			
 			
 			
 			
-			}
+			 }
+			
+			// after reading that file we close it
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-	/*	int row=0;
-		BufferedReader reader;
-		
-		try {
-			reader = new BufferedReader(new FileReader(
-					"output.txt"));
-			String line = reader.readLine();
-			model.addRow(new Object[]{line,"Indexed"});
-			while (line != null) {
-				System.out.println(line);
-				// read next line
-				line = reader.readLine();
-				model.addRow(new Object[]{line,"Indexed"});
-			row++;
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		model.removeRow(row);
-		
-		*/
+	
 	}
 }
