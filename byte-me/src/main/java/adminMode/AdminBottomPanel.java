@@ -1,33 +1,49 @@
 /* This class creates a panel in AdminMode GUI that includes buttons to
  * add, rebuild, remove and reset. It also includes some labels.
- Team Members: Lazaro Yero, Raul Vazquez, Jacob Babb
+ * Team Members, Lazaro Yero, Raul Vazquez, Jacob Babb
  * */
 
 package adminMode;
-
-import adminMode.AdminCenterPanel;
-
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+
+
+
 
 public class AdminBottomPanel extends JPanel {
 	
 	private JButton addButton, rebuildButton, removeButton, resetButton;
 	private JLabel filesIndexed, versionNumber;
-	
+	private JFileChooser filechoose; 
+	String newline;
 	public AdminBottomPanel() {
 		//Setting panel size
 		Dimension dim = getPreferredSize();
 		dim.height = 75;
 		setPreferredSize(dim);
-		
+		filechoose = new JFileChooser(); 
 		//Creating component objects
 		addButton = new JButton("Add File...");
 		rebuildButton = new JButton("Rebuild Out-of-date");
@@ -37,11 +53,6 @@ public class AdminBottomPanel extends JPanel {
 		versionNumber = new JLabel("Search Engine version: " /*needs reference*/);
 		
 		
-		
-		
-		
-		
-		
 		resetButton.addActionListener(new ActionListener() 
 		
 		{
@@ -49,20 +60,20 @@ public class AdminBottomPanel extends JPanel {
 		{
 			
 		
-			   
+			   FileWriter fw;
 				try {
 					
 					fw = new FileWriter("output.txt");
 					
 					
 			  
-					// delete all data if it has because every time we when we run application we enter all files after verifying   
+					 
 					AdminCenterPanel.model.getDataVector().removeAllElements();
 					
-					// future method ensures that if any row is deleted it refreshes the table
-					
-			        // future method will close the file  
-			        
+					// this method ensures that if any row is deleted it refreshes the table
+					AdminCenterPanel.model.fireTableDataChanged();
+			        // close the file  
+			        fw.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -73,23 +84,24 @@ public class AdminBottomPanel extends JPanel {
 		});
 		
 		
+		// rebuild Button action listener
 		rebuildButton.addActionListener(new ActionListener() 
 		
 		{
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			
-			BufferedReader; // future update include reader compatibly with buffer reader
+			BufferedReader reader;
 			
 
-			// this deletes  data if it has because we re enter all files after verifying   
+			// delete all data if it has because we re enter all files after verifying   
 		
 			AdminCenterPanel.model.getDataVector().removeAllElements();
 			
 			// this method ensures that if any row is deleted it refreshes the table
 			AdminCenterPanel.model.fireTableDataChanged();
 		
-			/* here we have applied a try and catch block to populate table very first time when application starts
+			/* here we have applied a try and catch block to populate the table very first time when application starts
 			 * we have used try and catch block to ensure if the file we are using to store addresses of other files is missing or corrupt it will
 			 * will execute  catch block and show the error
 			*/
@@ -98,26 +110,26 @@ public class AdminBottomPanel extends JPanel {
 				 * we have passed this file to BufferedReader via FileReader to read it line by line*/
 				reader = new BufferedReader(new FileReader(
 						"output.txt"));
-				//  future method here we have first line of file which is a file path we have stored
+				//  here we have first line of file which is a file path we have stored
+				String line = reader.readLine();
 				
 				
-				
-				// this loop will continue until it finds an empty line
+				//Fthis loop will continue until it finds an empty line
 				while (line != null) {
 					
-					// future update we have put path of file in this FIle variable 
-					
+					// we have put the path of file in this FIle variable 
+					File file = new File(line);
 					
 					// file.exists() checks that if this file is valid or not
 					if (file.exists()){
-						//future update if it is valid we will put that path and add Indexed in front of it
-						
+						// if it is valid we put that path and add Indexed in front of it
+						AdminCenterPanel.model.addRow(new Object[]{line,"Indexed"});
 					}
 				
 				else
 				{
-					// future update if it is not valid we will put that path and add File not found! in front of it
-						
+					// if it is not valid we put that path and add File not found! in front of it
+						AdminCenterPanel.model.addRow(new Object[]{line,"File Not Found!"});
 					}
 					
 					line = reader.readLine();
@@ -127,10 +139,10 @@ public class AdminBottomPanel extends JPanel {
 				
 				
 				
-			// after reading that file we will close it
-				
+			// after reading that file we close it
+				reader.close();
 			} catch (IOException e) {
-				
+				e.printStackTrace();
 			}
 			
 			
@@ -139,18 +151,20 @@ public class AdminBottomPanel extends JPanel {
 		}});
 		
 		
-		//remove button action
+		//remove button action Listener
         removeButton.addActionListener(new ActionListener() 
 		
 		{
 		public void actionPerformed(ActionEvent arg0) 
-		{// index.getSelectedRow() gives the selected row number of table and if it is -1 means no row is selected 
+		{
+			//Findex.getSelectedRow() gives the selected row number of table and if it is -1 means no row is selected 
 			if(AdminCenterPanel.index.getSelectedRow()==-1)
-			{// show pop up to show a message about selecting a row
+			{// show pop up to show a message about select a row
 				JOptionPane.showMessageDialog(null, "Select a row");
 			}
 			else
-			{	//if row is selected then this method will execute
+			{
+				// if a row is selected then this method will execute
 				BufferedReader reader;
 				try {
 					reader = new BufferedReader(new FileReader(
@@ -159,12 +173,15 @@ public class AdminBottomPanel extends JPanel {
 					 newline = null;
 					
 					 int i=0;
-					// Here we read all lines of output.txt file and match the selected row file path with each line of output.txt file
-					while (line != null) {
-						// we pick up all lines in a String variable newLine that are not equal to the file path we choose to remove
+					
+					 // Here we read all lines of output.txt file and match selected row file path will each line of output.txt file
+					 while (line != null) {
+						
+						 // we pick up all lines in a String variable newLine that are not equal to the file path we choose to remove
 						 // in this way we get all paths except the path of  of file path we choose to remove in in String variable newLine
 						if(!line.equals(AdminCenterPanel.index.getValueAt(AdminCenterPanel.index.getSelectedRow(), 0)))
-						{	/*For the first time we have to initialize newline variable so we use a variable i which is equal to 0 at start but
+						{
+							/*For the first time we have to initialize newline variable so we use a variable i which is equal to 0 at start but
 							after first line it becomes 1 and we append all lines we pick from output.txt file to the newLine variable
 							*/
 							if(i==0)
@@ -178,66 +195,44 @@ public class AdminBottomPanel extends JPanel {
 						
 							}
 							}
-						
-						
-						
-						
+					
 						// read next line
 						line = reader.readLine();
 					
 					}
-					
+			
 					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				
-				
-			
-			
+		
+			// here we use the FileWriter and passed the file output.txt 
 			
 			   FileWriter fw;
 			try {
 				fw = new FileWriter("output.txt");
 				   // read character wise from string and write  
 		        // into FileWriter  
-		       fw.write(newline+"\n");
+		    // we use FileWriter because we want to overwrite the output.txt file with out newLine variable
+				fw.write(newline+"\n");
 		  
-		        System.out.println("Writing successful"); 
-		        //close the file  
+		 
+		        // close the file  
 		        fw.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-			   
-		     
-			
-		/*	
-			try(FileWriter fw = new FileWriter("output.txt", true);
-				    BufferedWriter bw = new BufferedWriter(fw);
-				    PrintWriter out = new PrintWriter(bw))
-				{
-				    
-				    out.print(newline);
-				    
-				  
-				} catch (IOException e) {
-				    //exception handling left as an exercise for the reader
-				}*/
-		
-			
-			
-			AdminCenterPanel.model.removeRow(AdminCenterPanel.index.getSelectedRow());
-			
-			
-			
 			}
-			
-			
+			// Remove Row From table GUI
+			AdminCenterPanel.model.removeRow(AdminCenterPanel.index.getSelectedRow());
+			}
 		}});
 		
+        
+        
+        
 		// add button action listener 
 		addButton.addActionListener(new ActionListener() 
 		
@@ -248,10 +243,10 @@ public class AdminBottomPanel extends JPanel {
 		// here is frame in which select file window opens
 		Component frame = null;
 		
-		//  opens the select window 
+		// it opens the select window 
 		if(filechoose.showSaveDialog(frame)==JFileChooser.APPROVE_OPTION);
 		
-		// it picks the file path we choose
+		// it pick the file path we choose
 		File f=	filechoose.getSelectedFile();
 
 		
@@ -302,7 +297,7 @@ public class AdminBottomPanel extends JPanel {
 			// else just write the file path to the output.txt
 		
 			
-			// here is a try and catch block for the output.txt file
+			// here is another try and catch block for the output.txt file
 // try to open this file
 			try(FileWriter fw = new FileWriter("output.txt", true);
 			   // Pass this file writer to butter writer
@@ -313,17 +308,19 @@ public class AdminBottomPanel extends JPanel {
 				// this will write in the file the path of our selected file
 			    out.println(f.getAbsolutePath());
 			   
-			    // Here we are adding this file path as row to the model of table so it show up in table 
+			    // Here we are adding this file path as a row to the model of table so it show up in table 
 			    AdminCenterPanel.model.addRow(new Object[]{f.getAbsolutePath(),"Indexed"});
 			   
 			  
 			} catch (IOException e) {
 			    //exception handling left as an exercise for the reader
-				// this will show pop up about file not found
+				// this will show a pop up about file not found
 				JOptionPane.showMessageDialog(frame, "File Not Found");
 			}
 		  }
 		}});
+		
+		
 		
 		//Setting the grid layout and positioning components
 		setLayout(new GridBagLayout());
@@ -365,6 +362,5 @@ public class AdminBottomPanel extends JPanel {
 		gc.gridy = 1;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(versionNumber, gc);
-		
 	}
 }
