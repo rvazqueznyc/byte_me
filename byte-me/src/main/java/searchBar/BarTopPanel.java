@@ -57,40 +57,7 @@ class SearchBarPanel extends JPanel {
 		
 	public SearchBarPanel() {
 		option="-- Search Options --";
-		
-		path = new ArrayList<String>();
-		try {
-			/*FA here we are reading file "output.txt" in which we have stored our data about file
-			 * we have passed this file to BufferedReader via FileReader to read it line by line*/
-			
-			reader = new BufferedReader(new FileReader(
-					"output.txt"));
-			
-			//FA  here we have first line of file which is a file path we have stored
-			String line = reader.readLine();
-
-				//FA this loop will continue until it finds an empty line
-			while (line != null) {
-
-				//FA we have put path of file in this FIle variable 
-				File file = new File(line);
-				
-				//FA file.exists() checks that if this file is valid or not
-				if (file.exists()){
-					//FA if it is valid we put that path and add Indexed in front of it
-					path.add(line);
-				}
-
-				//FA it reads next line of file 
-				line = reader.readLine();
-			 }
-			
-			//FA after reading that file we close it
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		files();
 		
 		//Creating panel size
 		Dimension dim = getPreferredSize();
