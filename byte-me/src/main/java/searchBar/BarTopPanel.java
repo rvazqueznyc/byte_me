@@ -69,6 +69,145 @@ class SearchBarPanel extends JPanel {
 		searchBar = new JTextField();
 		searchButton = new JButton("Search");
 		
+		//All Search Terms", "Any Search Terms", "Exact Phrase"
+		
+		searchButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("resource")
+			public void actionPerformed(ActionEvent arg0) 
+			{  files();
+				
+				if(option.equals("-- Search Options --"))
+				{
+					JOptionPane.showMessageDialog(null, "Select Any Option First!");
+				}
+				else
+				{
+					if(searchBar.getText().isEmpty())
+					{
+						JOptionPane.showMessageDialog(null, "Enter Keywords First!");
+					}
+					
+					//***************************************************************OR*******************************************************//
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					//**************************************************************AND*********************************************************//
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					//***************************************************************Exact Phrase*******************************************************//
+					else if(option.equals("Exact Phrase"))
+					{
+						int a=0,l=0,filefound=0;;
+						SearchBar.barCenterPanel.setText(null);
+					
+						Scanner input = null;
+				
+						
+						ArrayList<String> search = new ArrayList<String>();
+						ArrayList<String> words = new ArrayList<String>();
+						input = new Scanner(searchBar.getText());
+						input.useDelimiter(" +");
+						while(input.hasNext())
+						{
+							search.add(input.next());	
+						}
+					
+						
+						for(int i=0;i<path.size();i++)
+						{
+							//get first file
+							words.clear();
+							file = new File(path.get(i));
+							
+							//get all words of file
+							try {
+								input = new Scanner(file);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							input.useDelimiter(" +");
+							
+							while(input.hasNext())
+							{
+								words.add(input.next());	
+							}
+							
+							
+							
+							//match search terms with all words of file
+							for(int k=0;k<search.size();k++)
+							{
+								for(int j=a;j<words.size();j++)
+								{
+									if(search.get(k).equals(words.get(j)))
+									{
+										
+								l++;
+										a=j;
+										break;
+									}
+								
+							}
+								
+								if(l==search.size())
+								{
+									filefound=1;
+									SearchBar.barCenterPanel.append(path.get(i)+"\n");
+									}
+								}
+							l=0;
+					}
+				
+						if(filefound==0)
+						{
+							JOptionPane.showMessageDialog(null, "No Results Found!");
+						}
+					}
+					
+					
+					
+					
+					
+			}}});
+		
+		
+		
+		
+		
+		
+		
 		searchBar.setPreferredSize(new Dimension(500, 23));
 		
 		//Determining the location of the components
