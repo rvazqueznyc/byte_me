@@ -9,6 +9,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,8 +50,15 @@ class SearchBarPanel extends JPanel {
 	private static String[] options = {"-- Search Options --", "All Search Terms", "Any Search Terms", "Exact Phrase"};
 	private JTextField searchBar;
 	private JButton searchButton;
+	BufferedReader reader;
+	ArrayList<String> path;
+	String option;
+	File file;
 		
 	public SearchBarPanel() {
+		option="-- Search Options --";
+		files();
+		
 		//Creating panel size
 		Dimension dim = getPreferredSize();
 		dim.height = 40;
@@ -85,4 +97,41 @@ class SearchBarPanel extends JPanel {
 		gc.insets = new Insets(0, 0, 0, 80);
 		add(searchButton, gc);
 	}
+	
+	public void files()
+	{
+		path = new ArrayList<String>();
+		try {
+			/*FA here we are reading file "output.txt" in which we have stored our data about file
+			 * we have passed this file to BufferedReader via FileReader to read it line by line*/
+			
+			reader = new BufferedReader(new FileReader(
+					"output.txt"));
+			
+			//FA  here we have first line of file which is a file path we have stored
+			String line = reader.readLine();
+		
+			//FA this loop will continue until it finds an empty line
+			while (line != null) {
+				//FA we have put path of file in this FIle variable 
+				File file = new File(line);
+				
+				//FA file.exists() checks that if this file is valid or not
+				if (file.exists()){
+					//FA if it is valid we put that path and add Indexed in front of it
+					path.add(line);
+				}
+			
+				
+				//FA it reads next line of file 
+				line = reader.readLine();
+			 }
+			
+			//FA after reading that file we close it
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
