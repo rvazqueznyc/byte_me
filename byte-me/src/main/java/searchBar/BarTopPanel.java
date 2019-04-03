@@ -88,22 +88,71 @@ class SearchBarPanel extends JPanel {
 					}
 					
 					//***************************************************************OR*******************************************************//
+									else if(option.equals("Any Search Terms"))
+					{
+						int filefound=0;
+						SearchBar.barCenterPanel.setText(null);
 					
+						Scanner input = null;
+				
+						
+						ArrayList<String> search = new ArrayList<String>();
+						ArrayList<String> words = new ArrayList<String>();
+						input = new Scanner(searchBar.getText());
+						input.useDelimiter(" +");
+						while(input.hasNext())
+						{
+							search.add(input.next());	
+						}
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+						int a;
+						
+						for(int i=0;i<path.size();i++)
+						{ 
+							a=0;
+							//get first file
+							words.clear();
+							file = new File(path.get(i));
+							
+							//get all words of file
+							try {
+								input = new Scanner(file);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							input.useDelimiter(" +");
+							while(input.hasNext())
+							{
+								words.add(input.next());	
+							}
+
+							//match search terms with all words of file
+							for(int k=0;k<search.size();k++)
+							{
+								for(int j=0;j<words.size();j++)
+								{
+									if(search.get(k).equals(words.get(j)))
+									{
+									//System.out.println(search.get(k)+" "+path.get(i));
+									//SearchBar.barCenterPanel.setText(search.get(k)+" "+path.get(i)+"\n");
+									
+									SearchBar.barCenterPanel.append(path.get(i)+"\n");
+									filefound=1;
+									a=1;
+									break;
+									}
+								}
+								if(a==1)
+									break;
+							}
+					}
+						
+						if(filefound==0)
+						{
+							JOptionPane.showMessageDialog(null, "No Results Found!");
+						}
+				}
 					
 					//**************************************************************AND*********************************************************//
 					
@@ -132,8 +181,7 @@ class SearchBarPanel extends JPanel {
 						SearchBar.barCenterPanel.setText(null);
 					
 						Scanner input = null;
-				
-						
+
 						ArrayList<String> search = new ArrayList<String>();
 						ArrayList<String> words = new ArrayList<String>();
 						input = new Scanner(searchBar.getText());
@@ -142,8 +190,7 @@ class SearchBarPanel extends JPanel {
 						{
 							search.add(input.next());	
 						}
-					
-						
+
 						for(int i=0;i<path.size();i++)
 						{
 							//get first file
@@ -164,8 +211,6 @@ class SearchBarPanel extends JPanel {
 								words.add(input.next());	
 							}
 							
-							
-							
 							//match search terms with all words of file
 							for(int k=0;k<search.size();k++)
 							{
@@ -178,7 +223,6 @@ class SearchBarPanel extends JPanel {
 										a=j;
 										break;
 									}
-								
 							}
 								
 								if(l==search.size())
@@ -189,24 +233,12 @@ class SearchBarPanel extends JPanel {
 								}
 							l=0;
 					}
-				
 						if(filefound==0)
 						{
 							JOptionPane.showMessageDialog(null, "No Results Found!");
 						}
 					}
-					
-					
-					
-					
-					
 			}}});
-		
-		
-		
-		
-		
-		
 		
 		searchBar.setPreferredSize(new Dimension(500, 23));
 		
