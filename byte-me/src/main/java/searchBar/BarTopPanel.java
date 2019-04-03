@@ -156,7 +156,72 @@ class SearchBarPanel extends JPanel {
 					
 					//**************************************************************AND*********************************************************//
 					
+					else if(option.equals("All Search Terms"))
+					{
+						int filefound=0;
+						SearchBar.barCenterPanel.setText(null);
 					
+						Scanner input = null;
+				
+						int a;
+						ArrayList<String> search = new ArrayList<String>();
+						ArrayList<String> words = new ArrayList<String>();
+						input = new Scanner(searchBar.getText());
+						input.useDelimiter(" +");
+						while(input.hasNext())
+						{
+							search.add(input.next());	
+						}
+					
+						
+						for(int i=0;i<path.size();i++)
+						{
+							a=0;
+							//get first file
+							words.clear();
+							file = new File(path.get(i));
+							
+							//get all words of file
+							try {
+								input = new Scanner(file);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							input.useDelimiter(" +");
+							while(input.hasNext())
+							{
+								words.add(input.next());	
+							}
+							
+							
+							//match search terms with all words of file
+							for(int k=0;k<search.size();k++)
+							{
+								for(int j=0;j<words.size();j++)
+								{
+									if(search.get(k).equals(words.get(j)))
+									{
+										//System.out.println(search.get(k)+" "+path.get(i));
+									//SearchBar.barCenterPanel.setText(search.get(k)+" "+path.get(i)+"\n");
+									a++;
+									
+									}
+								}
+								
+								if(a==search.size())
+								{
+									filefound=1;
+									SearchBar.barCenterPanel.append(path.get(i)+"\n");
+								}
+							}
+					}
+						
+						if(filefound==0)
+						{
+							JOptionPane.showMessageDialog(null, "No Results Found!");
+						}
+				}
 					
 					
 					
