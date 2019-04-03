@@ -1,5 +1,6 @@
 /* This class creates a panel in the SearchBar GUI that includes
  * search bar, search button and a combo box of search options.
+ * Jacob Babb, Lazaro Yero, Raul Vazquez
  * */
 
 package searchBar;
